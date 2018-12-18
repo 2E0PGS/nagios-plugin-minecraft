@@ -1,10 +1,8 @@
-nagios-plugins
-==============
+# Nagios Plugin Minecraft
 
-Miscellaneous Nagios plugins.
+A plugin for monitoring Minecraft servers. Tested with LibreNMS.
 
-check_minecraft
----------------
+## check_minecraft
 
 Plugin for checking availability, response time and number of players on a Minecraft server.
 
@@ -37,8 +35,7 @@ The plugin queries the server by sending a 0xFE Server List Ping packet. The ser
         -v, --verbose   show details for command-line debugging (Nagios may
                         truncate output)
 
-License
-=======
+## License
 
 Plugins released under the MIT license:
 
