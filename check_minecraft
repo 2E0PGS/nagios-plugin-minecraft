@@ -11,9 +11,9 @@ STATE_CRITICAL = 2
 STATE_UNKNOWN = 3
 
 # Output formatting string.
-OUTPUT_OK = "MINECRAFT OK: {0} - {1} bytes in {2:.3} second response time|time={2}s;{3};{4};0.0;{5}"
-OUTPUT_WARNING = "MINECRAFT WARNING: {0} - {1} bytes in {2:.3} second response time|time={2}s;{3};{4};0.0;{5}"
-OUTPUT_CRITICAL = "MINECRAFT CRITICAL: {0} - {1} bytes in {2:.3} second response time|time={2}s;{3};{4};0.0;{5}"
+OUTPUT_OK = "MINECRAFT OK: {0} - {1} bytes in {2:.3} second response time|time={2}s;{3};{4};0.0;{5} players={6}"
+OUTPUT_WARNING = "MINECRAFT WARNING: {0} - {1} bytes in {2:.3} second response time|time={2}s;{3};{4};0.0;{5} players={6}"
+OUTPUT_CRITICAL = "MINECRAFT CRITICAL: {0} - {1} bytes in {2:.3} second response time|time={2}s;{3};{4};0.0;{5} players={6}"
 OUTPUT_EXCEPTION = "MINECRAFT CRITICAL: {0}"
 OUTPUT_UNKNOWN = "MINECRAFT UNKNOWN: Invalid arguments"
 
@@ -114,24 +114,29 @@ def main():
 		if string.find(info['motd'], args.motd) > -1:
 			# Check if response time is above critical level.
 			if args.critical and info['response_time'] > args.critical:
-				print(OUTPUT_CRITICAL.format("{0} second response time".format(info['response_time']), info['byte_count'], info['response_time'], args.warning, args.critical, args.timeout))
+				print(OUTPUT_CRITICAL.format("{0} second response time".format(info['response_time']), info['byte_count'], info['response_time'],
+				args.warning, args.critical, args.timeout, info['players']))
 				sys.exit(STATE_CRITICAL)
 
 			# Check if response time is above warning level.
 			if args.warning and info['response_time'] > args.warning:
-				print(OUTPUT_WARNING.format("{0} second response time".format(info['response_time']), info['byte_count'], info['response_time'], args.warning, args.critical, args.timeout))
+				print(OUTPUT_WARNING.format("{0} second response time".format(info['response_time']), info['byte_count'], info['response_time'],
+				args.warning, args.critical, args.timeout, info['players']))
 				sys.exit(STATE_WARNING)
 
 			# Check if server is full.
 			if args.full and info['players'] == info['max_players']:
-				print(OUTPUT_WARNING.format("Server full! {0} players online".format(info['players']), info['byte_count'], info['response_time'], args.warning, args.critical, args.timeout))
+				print(OUTPUT_WARNING.format("Server full! {0} players online".format(info['players']), info['byte_count'], info['response_time'],
+				args.warning, args.critical, args.timeout, info['players']))
 				sys.exit(STATE_WARNING)
 
-			print(OUTPUT_OK.format("{0}/{1} players online".format(info['players'], info['max_players']), info['byte_count'], info['response_time'], args.warning, args.critical, args.timeout))
+			print(OUTPUT_OK.format("{0}/{1} players online".format(info['players'], info['max_players']), info['byte_count'], info['response_time'],
+			args.warning, args.critical, args.timeout, info['players']))
 			sys.exit(STATE_OK)
 
 		else:
-			print(OUTPUT_WARNING.format("Unexpected MOTD, {0}".format(info['motd']), info['byte_count'], info['response_time'], args.warning, args.critical, args.timeout))
+			print(OUTPUT_WARNING.format("Unexpected MOTD, {0}".format(info['motd']), info['byte_count'], info['response_time'],
+			args.warning, args.critical, args.timeout, info['players']))
 			sys.exit(STATE_WARNING)
 
 	except socket.error as msg:
