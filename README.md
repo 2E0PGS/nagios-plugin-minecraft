@@ -1,6 +1,8 @@
 # Nagios Plugin Minecraft
 
-A plugin for monitoring Minecraft servers. Tested with LibreNMS.
+A plugin for monitoring Minecraft servers. 
+
+Graphs response time and player counts, tested on LibreNMS.
 
 ## check_minecraft
 
